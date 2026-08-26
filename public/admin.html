@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+    <title>ניהול זמינות | ספרים למכירה</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/books.js" defer></script>
+    <script src="/admin.js" defer></script>
+  </head>
+  <body class="admin-body">
+    <main class="admin-shell">
+      <section class="admin-card">
+        <div class="admin-heading">
+          <div>
+            <p class="eyebrow eyebrow--dark">ניהול פרטי</p>
+            <h1>עדכון זמינות</h1>
+            <p>אפשר לבחור לכל ספר רק ״זמין״ או ״נמכר״. השינוי נשמר מיד באתר.</p>
+          </div>
+          <div class="admin-links"><a href="/">צפייה באתר</a><button id="logout" class="link-button hidden" type="button">יציאה</button></div>
+        </div>
+
+        <form class="login-panel" id="login-form">
+          <label for="admin-code">קוד ניהול</label>
+          <div class="login-row"><input id="admin-code" type="password" required autocomplete="current-password" placeholder="הקלידו את קוד הניהול"><button type="submit">כניסה</button></div>
+          <p>הקוד נשמר רק עד שסוגרים את הדפדפן.</p>
+        </form>
+
+        <p class="admin-message hidden" id="admin-message" role="status"></p>
+        <div class="status-list hidden" id="status-list"></div>
+      </section>
+    </main>
+  </body>
+</html>

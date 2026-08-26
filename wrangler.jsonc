@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "sfarim",
+  "compatibility_date": "2026-08-26",
+  "assets": {
+    "directory": "./public",
+    "html_handling": "drop-trailing-slash"
+  }
+}

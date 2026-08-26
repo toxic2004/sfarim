@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+    <meta name="googlebot" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+    <meta name="description" content="קטלוג של 44 ספרים במצב טוב, עם תמונות ומחירים.">
+    <meta property="og:title" content="ספרים למכירה">
+    <meta property="og:description" content="44 ספרים במצב טוב, עם תמונות ומחירים.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://sfarim.toxic2004.workers.dev/og.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>ספרים למכירה</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/books.js" defer></script>
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="shell hero__content">
+        <p class="eyebrow">אוסף פרטי • כל הספרים במצב טוב</p>
+        <h1>ספרים למכירה</h1>
+        <p class="hero__lead">44 ספרים שמחפשים בית חדש, במחירים נוחים שמופיעים בכל כרטיס.</p>
+        <div class="hero__actions">
+          <a class="button button--whatsapp" href="https://wa.me/972547693210?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%AA%D7%A2%D7%A0%D7%99%D7%99%D7%9F%20%D7%91%D7%A1%D7%A4%D7%A8%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8" target="_blank" rel="noopener noreferrer">שליחת הודעה בוואטסאפ</a>
+          <a class="button button--secondary" href="#catalog">לכל הספרים</a>
+        </div>
+        <p class="facebook-note">ניתן לפנות גם בהודעה פרטית בפייסבוק.</p>
+      </div>
+    </header>
+
+    <main class="shell catalog" id="catalog">
+      <div class="catalog__heading">
+        <div><p class="eyebrow eyebrow--dark">הקטלוג</p><h2>מצאו את הספר הבא שלכם</h2></div>
+        <p class="count" id="book-count" aria-live="polite">מוצגים 44 מתוך 44</p>
+      </div>
+      <section class="filters" aria-label="סינון ספרים">
+        <label class="search">
+          <span>חיפוש לפי שם</span>
+          <input id="search" type="search" placeholder="לדוגמה: האושר" autocomplete="off">
+        </label>
+        <div class="chips" id="category-filters" role="group" aria-label="סינון לפי נושא"></div>
+      </section>
+
+      <div class="loading" id="loading" role="status">טוען את זמינות הספרים...</div>
+      <div class="book-grid" id="book-grid"></div>
+      <div class="empty-state hidden" id="empty-state">
+        <h3>לא מצאנו ספר מתאים</h3>
+        <p>אפשר לנסות שם אחר או לבחור את הקטגוריה ״הכול״.</p>
+      </div>
+    </main>
+
+    <footer>
+      <div class="shell footer__inner">
+        <div><p class="footer__title">ספרים למכירה</p><p>לפרטים, ציינו בהודעה את שם הספר שמעניין אתכם. ניתן לפנות גם בהודעה פרטית בפייסבוק.</p></div>
+        <a class="footer__whatsapp" href="https://wa.me/972547693210?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%90%D7%A0%D7%99%20%D7%9E%D7%AA%D7%A2%D7%A0%D7%99%D7%99%D7%9F%20%D7%91%D7%A1%D7%A4%D7%A8%20%D7%9E%D7%94%D7%90%D7%AA%D7%A8" target="_blank" rel="noopener noreferrer">שליחת הודעה בוואטסאפ</a>
+      </div>
+    </footer>
+  </body>
+</html>

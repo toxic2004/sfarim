@@ -43,6 +43,7 @@ window.BOOKS = [
   { title: "וואבי סאבי", price: 35, category: "עיון והתפתחות", image: "/books/collection-b.webp", position: "50% 52%" },
   { title: "להעפיל אל על ולהפעיל בקל", price: 15, category: "כלכלה ועסקים", image: "/books/collection-b.webp", position: "83% 55%" },
   { title: "67, ירושלים מלחמה", price: 20, category: "חברה והיסטוריה", image: "/books/collection-b.webp", position: "18% 86%" }
+// Every catalog item uses its own complete cover image.
 ].map((book, index) => ({
   ...book,
   id: index + 1,

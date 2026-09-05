@@ -16,3 +16,5 @@
 * Root directory: `/`
 
 הקבצים הציבוריים נמצאים בתיקייה `public`.
+
+<!-- Cloudflare Workers Builds connected -->

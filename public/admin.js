@@ -7,6 +7,11 @@ const message = document.querySelector("#admin-message");
 const logout = document.querySelector("#logout");
 let token = sessionStorage.getItem("booksAdminToken") || "";
 let statuses = {};
+let prices = {};
+
+function escapeHtml(value) {
+  return value.replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character]);
+}
 
 function showMessage(text, type = "success") {
   message.textContent = text;
@@ -30,12 +35,19 @@ async function request(method, body) {
   return data;
 }
 
-function renderStatuses() {
+function renderBooks() {
   statusList.innerHTML = books.map((book) => {
     const status = statuses[book.id] || "זמין";
+    const price = Number.isInteger(Number(prices[book.id])) ? Number(prices[book.id]) : book.price;
     return `<div class="status-row">
-      <span>${book.title}</span>
-      <select data-book-id="${book.id}" aria-label="זמינות הספר ${book.title}">
+      <span class="status-row__title">${escapeHtml(book.title)}</span>
+      <form class="price-editor" data-book-id="${book.id}">
+        <label class="visually-hidden" for="price-${book.id}">מחיר הספר ${escapeHtml(book.title)}</label>
+        <input id="price-${book.id}" name="price" type="number" min="0" max="100000" step="1" inputmode="numeric" value="${price}" required>
+        <span aria-hidden="true">₪</span>
+        <button type="submit">שמירה</button>
+      </form>
+      <select data-book-id="${book.id}" aria-label="זמינות הספר ${escapeHtml(book.title)}">
         <option value="זמין"${status === "זמין" ? " selected" : ""}>זמין</option>
         <option value="נמכר"${status === "נמכר" ? " selected" : ""}>נמכר</option>
       </select>
@@ -43,12 +55,13 @@ function renderStatuses() {
   }).join("");
 }
 
-async function loadStatuses() {
+async function loadBooks() {
   const response = await fetch(STATUS_API, { cache: "no-store" });
-  if (!response.ok) throw new Error("לא ניתן לטעון את הזמינות");
+  if (!response.ok) throw new Error("לא ניתן לטעון את נתוני הספרים");
   const data = await response.json();
   statuses = data.statuses || {};
-  renderStatuses();
+  prices = data.prices || {};
+  renderBooks();
 }
 
 loginForm.addEventListener("submit", async (event) => {
@@ -60,9 +73,9 @@ loginForm.addEventListener("submit", async (event) => {
   try {
     await request("POST", { action: "verify" });
     sessionStorage.setItem("booksAdminToken", token);
-    await loadStatuses();
+    await loadBooks();
     setLoggedIn(true);
-    showMessage("הכניסה הצליחה. אפשר לעדכן את זמינות הספרים.");
+    showMessage("הכניסה הצליחה. אפשר לעדכן מחירים וזמינות.");
     codeInput.value = "";
   } catch (error) {
     token = "";
@@ -79,13 +92,42 @@ statusList.addEventListener("change", async (event) => {
   const status = select.value;
   select.disabled = true;
   try {
-    await request("POST", { bookId, status });
+    await request("POST", { action: "status", bookId, status });
     statuses[bookId] = status;
     showMessage(`הסטטוס של ״${books[bookId - 1].title}״ עודכן ל״${status}״.`);
   } catch (error) {
     select.value = previous;
     showMessage(error.message, "error");
   } finally { select.disabled = false; }
+});
+
+statusList.addEventListener("submit", async (event) => {
+  const form = event.target.closest("form.price-editor[data-book-id]");
+  if (!form) return;
+  event.preventDefault();
+  const bookId = Number(form.dataset.bookId);
+  const input = form.elements.price;
+  const button = form.querySelector("button[type=submit]");
+  const previous = Number.isInteger(Number(prices[bookId])) ? Number(prices[bookId]) : books[bookId - 1].price;
+  const price = Number(input.value);
+  if (!Number.isInteger(price) || price < 0 || price > 100000) {
+    showMessage("יש להזין מחיר שלם בין 0 ל־100,000.", "error");
+    input.focus();
+    return;
+  }
+  input.disabled = true;
+  button.disabled = true;
+  try {
+    await request("POST", { action: "price", bookId, price });
+    prices[bookId] = price;
+    showMessage(`המחיר של ״${books[bookId - 1].title}״ עודכן ל־${price} ₪.`);
+  } catch (error) {
+    input.value = previous;
+    showMessage(error.message, "error");
+  } finally {
+    input.disabled = false;
+    button.disabled = false;
+  }
 });
 
 logout.addEventListener("click", () => {
@@ -97,7 +139,7 @@ logout.addEventListener("click", () => {
 
 if (token) {
   request("POST", { action: "verify" })
-    .then(loadStatuses)
+    .then(loadBooks)
     .then(() => setLoggedIn(true))
     .catch(() => { token = ""; sessionStorage.removeItem("booksAdminToken"); setLoggedIn(false); });
 } else {
